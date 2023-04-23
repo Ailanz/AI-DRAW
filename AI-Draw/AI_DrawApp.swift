@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PencilKit
 
 @main
 struct AI_DrawApp: App {
@@ -13,8 +14,9 @@ struct AI_DrawApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+//            ContentView()
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            DrawingView(canvasView: PKCanvasView(), sideBarView: SideBarView())
         }
     }
 }

@@ -10,18 +10,37 @@ import UIKit
 import PencilKit
 
 struct DrawingView: View {
-    @State private var canvasView = PKCanvasView()
-
+    
+    @State private var canvasView : PKCanvasView
+    @ObservedObject private var sideBarView : SideBarView
+    
+    init(canvasView: PKCanvasView, sideBarView: SideBarView) {
+        self.canvasView = canvasView
+        self.sideBarView = sideBarView
+    }
+    
+    
     var body: some View {
-        VStack {
-            CanvasView(canvasView: $canvasView)
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        }
+        HStack (alignment: .top) {
+            CanvasView(onSaved: {
+                let drawing = canvasView.drawing
+                print("Saved:")
+                print("Strokes: ", drawing.strokes.count)
+                sideBarView.GetCurrentLayer()
+                    .UpdateImage(uiImage: drawing.image(from: canvasView.bounds, scale: 1.0))
+            }, canvasView: $canvasView)
+            .border(.black)
+            .padding()
+
+            sideBarView.GetView()
+                .padding()
+
+        }.background(.white)
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawingView()
+        DrawingView(canvasView: PKCanvasView(), sideBarView: SideBarView())
     }
 }

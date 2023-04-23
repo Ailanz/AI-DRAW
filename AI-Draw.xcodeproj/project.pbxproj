@@ -13,6 +13,11 @@
 		89AD7D3A29EC7AD50060D9EB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89AD7D3929EC7AD50060D9EB /* Preview Assets.xcassets */; };
 		89AD7D3C29EC7AD50060D9EB /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D3B29EC7AD50060D9EB /* Persistence.swift */; };
 		89AD7D3F29EC7AD50060D9EB /* AI_Draw.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D3D29EC7AD50060D9EB /* AI_Draw.xcdatamodeld */; };
+		89AD7D4629EC7BA70060D9EB /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4529EC7BA70060D9EB /* CanvasView.swift */; };
+		89AD7D4829EC82BC0060D9EB /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4729EC82BC0060D9EB /* DrawingView.swift */; };
+		89AD7D4D29F45B980060D9EB /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4C29F45B980060D9EB /* ThumbnailView.swift */; };
+		89AD7D4F29F4BCC80060D9EB /* SideBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4E29F4BCC80060D9EB /* SideBarView.swift */; };
+		89AD7D5129F4C3D20060D9EB /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D5029F4C3D20060D9EB /* Layer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +28,11 @@
 		89AD7D3929EC7AD50060D9EB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		89AD7D3B29EC7AD50060D9EB /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		89AD7D3E29EC7AD50060D9EB /* AI_Draw.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AI_Draw.xcdatamodel; sourceTree = "<group>"; };
+		89AD7D4529EC7BA70060D9EB /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		89AD7D4729EC82BC0060D9EB /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		89AD7D4C29F45B980060D9EB /* ThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
+		89AD7D4E29F4BCC80060D9EB /* SideBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarView.swift; sourceTree = "<group>"; };
+		89AD7D5029F4C3D20060D9EB /* Layer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +49,7 @@
 		89AD7D2629EC7AD30060D9EB = {
 			isa = PBXGroup;
 			children = (
+				89AD7D4929F0020A0060D9EB /* Model */,
 				89AD7D3129EC7AD30060D9EB /* AI-Draw */,
 				89AD7D3029EC7AD30060D9EB /* Products */,
 			);
@@ -56,7 +67,11 @@
 			isa = PBXGroup;
 			children = (
 				89AD7D3229EC7AD30060D9EB /* AI_DrawApp.swift */,
+				89AD7D4729EC82BC0060D9EB /* DrawingView.swift */,
+				89AD7D4529EC7BA70060D9EB /* CanvasView.swift */,
 				89AD7D3429EC7AD30060D9EB /* ContentView.swift */,
+				89AD7D4E29F4BCC80060D9EB /* SideBarView.swift */,
+				89AD7D4C29F45B980060D9EB /* ThumbnailView.swift */,
 				89AD7D3629EC7AD50060D9EB /* Assets.xcassets */,
 				89AD7D3B29EC7AD50060D9EB /* Persistence.swift */,
 				89AD7D3D29EC7AD50060D9EB /* AI_Draw.xcdatamodeld */,
@@ -71,6 +86,14 @@
 				89AD7D3929EC7AD50060D9EB /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		89AD7D4929F0020A0060D9EB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				89AD7D5029F4C3D20060D9EB /* Layer.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,8 +167,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				89AD7D3C29EC7AD50060D9EB /* Persistence.swift in Sources */,
+				89AD7D4829EC82BC0060D9EB /* DrawingView.swift in Sources */,
 				89AD7D3529EC7AD30060D9EB /* ContentView.swift in Sources */,
+				89AD7D4F29F4BCC80060D9EB /* SideBarView.swift in Sources */,
+				89AD7D4629EC7BA70060D9EB /* CanvasView.swift in Sources */,
 				89AD7D3329EC7AD30060D9EB /* AI_DrawApp.swift in Sources */,
+				89AD7D4D29F45B980060D9EB /* ThumbnailView.swift in Sources */,
+				89AD7D5129F4C3D20060D9EB /* Layer.swift in Sources */,
 				89AD7D3F29EC7AD50060D9EB /* AI_Draw.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,7 +231,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -257,7 +285,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -281,8 +309,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -290,9 +317,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "htu.learning.AI-Draw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -310,8 +340,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -319,9 +348,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "htu.learning.AI-Draw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

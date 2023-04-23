@@ -16,7 +16,7 @@ struct AI_DrawApp: App {
         WindowGroup {
 //            ContentView()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            DrawingView(canvasView: PKCanvasView(), sideBarView: SideBarView())
-        }
+            let canvasView = PKCanvasView()
+            DrawingView(canvasView: canvasView, sideBarView: SideBarView(canvasView: canvasView))        }
     }
 }

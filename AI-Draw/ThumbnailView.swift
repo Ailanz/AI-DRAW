@@ -11,7 +11,6 @@ import SwiftUI
 class ThumbnailView : ObservableObject, Identifiable {
     
     @Published var layer : Layer
-    let id = UUID()
 
     init(layer: Int) {
         self.layer = Layer(layer: layer)

@@ -6,18 +6,23 @@
 //
 
 import SwiftUI
+import PencilKit
 
 class Layer : ObservableObject{
-    @Published var layer : Int
+    @Published var layerIndex : Int
     @Published var image = Image(uiImage: UIImage())
     @Published var hidden = false
-    
+    @Published var drawing = PKDrawing()
     init(layer: Int) {
-        self.layer = layer
+        self.layerIndex = layer
     }
     
-    func UpdateImage(uiImage : UIImage) {
-        image = Image(uiImage: uiImage)
+    func AddStroke(stroke : PKStroke) {
+        drawing.strokes.append(stroke)
+    }
+    
+    func UpdateImage(bounds: CGRect) {
+        image = Image(uiImage:drawing.image(from: bounds, scale: 1.0))
     }
 }
 

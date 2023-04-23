@@ -15,9 +15,9 @@ struct CanvasView {
     @Binding var canvasView: PKCanvasView
     
     func showToolPicker() {
-      toolPicker.setVisible(true, forFirstResponder: canvasView)
-      toolPicker.addObserver(canvasView)
-      canvasView.becomeFirstResponder()
+        toolPicker.setVisible(true, forFirstResponder: canvasView)
+        toolPicker.addObserver(canvasView)
+        canvasView.becomeFirstResponder()
     }
 }
 
@@ -36,25 +36,25 @@ extension CanvasView: UIViewRepresentable {
     func updateUIView(_ uiView: PKCanvasView, context: Context) {}
     
     func makeCoordinator() -> Coordinator {
-      Coordinator(canvasView: $canvasView, onSaved: onSaved)
+        Coordinator(canvasView: $canvasView, onSaved: onSaved)
     }
     
 }
 
 class Coordinator: NSObject {
-  var canvasView: Binding<PKCanvasView>
-  let onSaved: () -> Void
-
-  init(canvasView: Binding<PKCanvasView>, onSaved: @escaping () -> Void) {
-    self.canvasView = canvasView
-    self.onSaved = onSaved
-  }
+    var canvasView: Binding<PKCanvasView>
+    let onSaved: () -> Void
+    
+    init(canvasView: Binding<PKCanvasView>, onSaved: @escaping () -> Void) {
+        self.canvasView = canvasView
+        self.onSaved = onSaved
+    }
 }
 
 extension Coordinator: PKCanvasViewDelegate {
-  func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-    if !canvasView.drawing.bounds.isEmpty {
-      onSaved()
+    func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+        if !canvasView.drawing.bounds.isEmpty {
+            onSaved()
+        }
     }
-  }
 }

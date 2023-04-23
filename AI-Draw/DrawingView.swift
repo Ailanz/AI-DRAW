@@ -23,11 +23,19 @@ struct DrawingView: View {
     var body: some View {
         HStack (alignment: .top) {
             CanvasView(onSaved: {
-                let drawing = canvasView.drawing
+                var drawing = canvasView.drawing
                 print("Saved:")
                 print("Strokes: ", drawing.strokes.count)
-                sideBarView.GetCurrentLayer()
-                    .UpdateImage(uiImage: drawing.image(from: canvasView.bounds, scale: 1.0))
+                let lastStroke = drawing.strokes.last
+                sideBarView.GetCurrentLayer().AddStroke(stroke: lastStroke!)
+                sideBarView.GetCurrentLayer().UpdateImage(bounds: canvasView.bounds)
+                
+                //Experiment
+                drawing.strokes.removeAll()
+                //End Experiment
+                
+                print("--Strokes: ", drawing.strokes.count)
+
             }, canvasView: $canvasView)
             .border(.black)
             .padding()
@@ -41,6 +49,7 @@ struct DrawingView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawingView(canvasView: PKCanvasView(), sideBarView: SideBarView())
+        let canvasView = PKCanvasView()
+        DrawingView(canvasView: canvasView, sideBarView: SideBarView(canvasView: canvasView))
     }
 }

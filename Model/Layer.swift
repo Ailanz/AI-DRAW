@@ -8,22 +8,27 @@
 import SwiftUI
 import PencilKit
 
-class Layer : ObservableObject{
+class Layer : ObservableObject, Identifiable{
+    //layer order
     @Published var layerIndex : Int
-    @Published var image = Image(uiImage: UIImage())
+    @Published var thumbnail : Image
     @Published var hidden = false
-    @Published var drawing = PKDrawing()
-    init(layer: Int) {
+    @Published var canvasView : CanvasView? = nil
+    
+    
+    init(layer: Int, thumbnail: Image) {
         self.layerIndex = layer
+        let pkCanvasView = PKCanvasView()
+        self.thumbnail = thumbnail
+        self.canvasView = CanvasView(onSaved: UpdateImage, pkCanvasView: pkCanvasView, thumbnail: thumbnail)
     }
     
-    func AddStroke(stroke : PKStroke) {
-        drawing.strokes.append(stroke)
+    func UpdateImage() {
+        print("Updating thumbnail {%s}. Stroke Count:", layerIndex, canvasView!.pkCanvasView.drawing.strokes.count)
+        thumbnail = Image(uiImage: canvasView!.pkCanvasView.drawing.image(from: canvasView!.pkCanvasView.bounds, scale: 1.0))
+        self.objectWillChange.send()
     }
     
-    func UpdateImage(bounds: CGRect) {
-        image = Image(uiImage:drawing.image(from: bounds, scale: 1.0))
-    }
 }
 
 

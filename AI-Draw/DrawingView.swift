@@ -11,34 +11,34 @@ import PencilKit
 
 struct DrawingView: View {
     
-    @State private var canvasView : PKCanvasView
-    @ObservedObject private var sideBarView : SideBarView
+    @StateObject var sideBarView : SideBarView = SideBarView()
+    @State var canvasView: PKCanvasView
     
-    init(canvasView: PKCanvasView, sideBarView: SideBarView) {
+    init(sideBarView: SideBarView, _ canvasView: PKCanvasView) {
+        //self.sideBarView = sideBarView
         self.canvasView = canvasView
-        self.sideBarView = sideBarView
+        sideBarView.RegisterParentView(uiView: canvasView)
     }
-    
     
     var body: some View {
         HStack (alignment: .top) {
-            CanvasView(onSaved: {
-                var drawing = canvasView.drawing
-                print("Saved:")
-                print("Strokes: ", drawing.strokes.count)
-                let lastStroke = drawing.strokes.last
-                sideBarView.GetCurrentLayer().AddStroke(stroke: lastStroke!)
-                sideBarView.GetCurrentLayer().UpdateImage(bounds: canvasView.bounds)
+            ZStack {
                 
-                //Experiment
-                drawing.strokes.removeAll()
-                //End Experiment
-                
-                print("--Strokes: ", drawing.strokes.count)
-
-            }, canvasView: $canvasView)
-            .border(.black)
-            .padding()
+                ForEach(sideBarView.layers) { layer in
+                    layer.canvasView!
+                        .frame(width: 1000, height: 800)
+                        .border(.black)
+                        //.zIndex(Double(100 - layer.layerIndex))
+                        .zIndex( sideBarView.selectedLayer == layer.layerIndex ? 1.0 : 0.0)
+                    
+                }
+            }
+//            CanvasView(onSaved: {
+//
+//
+//            }, canvasView: canvasView)
+//            .border(.black)
+//            .padding()
 
             sideBarView.GetView()
                 .padding()
@@ -49,7 +49,6 @@ struct DrawingView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        let canvasView = PKCanvasView()
-        DrawingView(canvasView: canvasView, sideBarView: SideBarView(canvasView: canvasView))
+        DrawingView(sideBarView: SideBarView(), PKCanvasView())
     }
 }

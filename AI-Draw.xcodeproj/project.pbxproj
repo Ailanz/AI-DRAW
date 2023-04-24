@@ -15,7 +15,6 @@
 		89AD7D3F29EC7AD50060D9EB /* AI_Draw.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D3D29EC7AD50060D9EB /* AI_Draw.xcdatamodeld */; };
 		89AD7D4629EC7BA70060D9EB /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4529EC7BA70060D9EB /* CanvasView.swift */; };
 		89AD7D4829EC82BC0060D9EB /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4729EC82BC0060D9EB /* DrawingView.swift */; };
-		89AD7D4D29F45B980060D9EB /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4C29F45B980060D9EB /* ThumbnailView.swift */; };
 		89AD7D4F29F4BCC80060D9EB /* SideBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D4E29F4BCC80060D9EB /* SideBarView.swift */; };
 		89AD7D5129F4C3D20060D9EB /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D5029F4C3D20060D9EB /* Layer.swift */; };
 /* End PBXBuildFile section */
@@ -30,7 +29,6 @@
 		89AD7D3E29EC7AD50060D9EB /* AI_Draw.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AI_Draw.xcdatamodel; sourceTree = "<group>"; };
 		89AD7D4529EC7BA70060D9EB /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		89AD7D4729EC82BC0060D9EB /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
-		89AD7D4C29F45B980060D9EB /* ThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		89AD7D4E29F4BCC80060D9EB /* SideBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarView.swift; sourceTree = "<group>"; };
 		89AD7D5029F4C3D20060D9EB /* Layer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,7 +69,6 @@
 				89AD7D4529EC7BA70060D9EB /* CanvasView.swift */,
 				89AD7D3429EC7AD30060D9EB /* ContentView.swift */,
 				89AD7D4E29F4BCC80060D9EB /* SideBarView.swift */,
-				89AD7D4C29F45B980060D9EB /* ThumbnailView.swift */,
 				89AD7D3629EC7AD50060D9EB /* Assets.xcassets */,
 				89AD7D3B29EC7AD50060D9EB /* Persistence.swift */,
 				89AD7D3D29EC7AD50060D9EB /* AI_Draw.xcdatamodeld */,
@@ -172,7 +169,6 @@
 				89AD7D4F29F4BCC80060D9EB /* SideBarView.swift in Sources */,
 				89AD7D4629EC7BA70060D9EB /* CanvasView.swift in Sources */,
 				89AD7D3329EC7AD30060D9EB /* AI_DrawApp.swift in Sources */,
-				89AD7D4D29F45B980060D9EB /* ThumbnailView.swift in Sources */,
 				89AD7D5129F4C3D20060D9EB /* Layer.swift in Sources */,
 				89AD7D3F29EC7AD50060D9EB /* AI_Draw.xcdatamodeld in Sources */,
 			);

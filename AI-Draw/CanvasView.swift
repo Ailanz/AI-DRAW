@@ -10,40 +10,43 @@ import UIKit
 import PencilKit
 
 struct CanvasView {
-    let onSaved: () -> Void
-    @State var toolPicker = PKToolPicker()
-    @Binding var canvasView: PKCanvasView
+    var onSaved: () -> Void
+
+    @State static var toolPicker = PKToolPicker()
+    @State var pkCanvasView: PKCanvasView
+    @State var thumbnail: Image
+    
     
     func showToolPicker() {
-        toolPicker.setVisible(true, forFirstResponder: canvasView)
-        toolPicker.addObserver(canvasView)
-        canvasView.becomeFirstResponder()
+        CanvasView.toolPicker.setVisible(true, forFirstResponder: pkCanvasView)
+        CanvasView.toolPicker.addObserver(pkCanvasView)
+        pkCanvasView.becomeFirstResponder()
     }
 }
 
 extension CanvasView: UIViewRepresentable {
     func makeUIView(context: Context) -> PKCanvasView {
-        canvasView.tool = PKInkingTool(.pen, color: .gray, width: 10)
-        canvasView.drawingPolicy = .anyInput
-        canvasView.delegate = context.coordinator
+        pkCanvasView.tool = PKInkingTool(.pen, color: .gray, width: 10)
+        pkCanvasView.drawingPolicy = .anyInput
+        pkCanvasView.delegate = context.coordinator
         showToolPicker()
         
-        canvasView.backgroundColor = UIColor.clear
-        canvasView.isOpaque = true
-        return canvasView
+        pkCanvasView.backgroundColor = UIColor.clear
+        pkCanvasView.isOpaque = true
+        return pkCanvasView
     }
     
     func updateUIView(_ uiView: PKCanvasView, context: Context) {}
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(canvasView: $canvasView, onSaved: onSaved)
+        Coordinator(canvasView: $pkCanvasView, onSaved: onSaved)
     }
     
 }
 
 class Coordinator: NSObject {
     var canvasView: Binding<PKCanvasView>
-    let onSaved: () -> Void
+    var onSaved: () -> Void
     
     init(canvasView: Binding<PKCanvasView>, onSaved: @escaping () -> Void) {
         self.canvasView = canvasView

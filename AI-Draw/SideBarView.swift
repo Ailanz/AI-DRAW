@@ -9,28 +9,29 @@ import SwiftUI
 import PencilKit
 
 class SideBarView: ObservableObject {
-    @Published var thumbnails = [ThumbnailView.CreateLayer(index: 0)]
+    @Published var layers = [Layer(layer: 0, thumbnail: Image(uiImage: UIImage()))]
     @Published var selectedLayer = 0
+    @State var parentView: UIView = UIView()
     
-    @State var canvasView : PKCanvasView
-    
-    init(canvasView: PKCanvasView) {
-        self.canvasView = canvasView
+    init() {
+        //self.layers[0].canvasView.onSaved = self.layers[0].UpdateImage
     }
     
     var body: some View {
         VStack {
-            ForEach(thumbnails) { layer in
-                Button {
-                    self.selectedLayer = layer.layer.layerIndex
+            ForEach(layers) { layer in
+                Button { [self] in
+                    self.selectedLayer = layer.layerIndex
+                    var curLayer = layers[selectedLayer]
+                    parentView.bringSubviewToFront(curLayer.canvasView!.pkCanvasView)
                 } label: {
                 
-                    layer.GetView()
+                    layer.thumbnail
                         .resizable()
                         .frame(width:110, height: 90)
                         .background(.clear)
                     
-                        .border(layer === self.thumbnails[self.selectedLayer] ? .red : .blue)
+                        .border(layer === self.layers[self.selectedLayer] ? .red : .blue)
                 }
 
                 
@@ -50,21 +51,27 @@ extension SideBarView {
         return  body
     }
     
+    func RegisterParentView(uiView: UIView) {
+        self.parentView = uiView
+        uiView.addSubview(layers[0].canvasView!.pkCanvasView)
+    }
+    
     func AddLayer() {
-        selectedLayer = thumbnails.count
-        self.thumbnails.append(ThumbnailView.CreateLayer(index: selectedLayer))
+        selectedLayer = layers.count
+        var newLayer  = Layer(layer: selectedLayer, thumbnail: Image(uiImage: UIImage()))
+        //newLayer.canvasView.onSaved = newLayer.UpdateImage
+        self.layers.append(newLayer)
+        parentView.addSubview(newLayer.canvasView!.pkCanvasView)
+        parentView.bringSubviewToFront(newLayer.canvasView!.pkCanvasView)
     }
     
     func SelectLayer(index: Int) {
         self.selectedLayer = index
     }
     
-    func GetCurrentThumbnail() -> ThumbnailView {
-        self.objectWillChange.send()
-        return thumbnails[selectedLayer]
-    }
+
     
     func GetCurrentLayer() -> Layer {
-        return GetCurrentThumbnail().layer
+        return layers[self.selectedLayer]
     }
 }

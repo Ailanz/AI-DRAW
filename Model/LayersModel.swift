@@ -10,4 +10,12 @@ import SwiftUI
 
 class LayersModel : ObservableObject {
     @Published var layers : [Layer] = [Layer(layer: 0, thumbnail: Image(uiImage: UIImage()))]
+    
+    func getLayers() -> [Layer] {
+        return layers
+    }
+    
+    func AddLayer() {
+        layers.append(Layer(layer: layers.count, thumbnail: Image(uiImage: UIImage())))
+    }
 }

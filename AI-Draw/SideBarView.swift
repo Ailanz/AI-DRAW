@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 
 
 class SideBarView: ObservableObject {
-    @Published var layers : [Layer] = [Layer(layer: 0, thumbnail: Image(uiImage: UIImage()))]
+    @ObservedObject var layerModel = LayersModel()
     @Published var selectedLayer = 0
     @State var parentView: UIView = UIView()
     
@@ -26,7 +26,7 @@ class SideBarView: ObservableObject {
     var body: some View {
 
         LazyVStack {
-            ForEach(layers) { layer in
+            ForEach(layerModel.getLayers()) { layer in
                 
                 Button {
                     
@@ -42,7 +42,7 @@ class SideBarView: ObservableObject {
                         .resizable()
                         .frame(width:110, height: 90)
                         .background(.clear)
-                        .border(layer === self.layers[self.selectedLayer] ? .red : .blue)
+                        .border(layer === self.layerModel.getLayers()[self.selectedLayer] ? .red : .blue)
                         
                     
                     
@@ -53,7 +53,7 @@ class SideBarView: ObservableObject {
 
                     return NSItemProvider()
                 })
-                .onDrop(of: [UTType.text], delegate: TestDelegate(item: layer, items: self.layers))
+                .onDrop(of: [UTType.text], delegate: TestDelegate(item: layer, layersModel: self.layerModel))
             
                 
             }
@@ -66,12 +66,11 @@ class SideBarView: ObservableObject {
 }
 struct TestDelegate : DropDelegate {
     let item : Layer
-    @State var items : [Layer]
+    var layersModel : LayersModel
     
-    init(item: Layer, items: [Layer]) {
+    init(item: Layer, layersModel: LayersModel) {
         self.item = item
-        self.items = items
-        //print("Delegate Created:", SideBarView.draggedLayer?.layerIndex , item.layerIndex, items.count)
+        self.layersModel = layersModel
     }
 
     func performDrop(info: DropInfo) -> Bool {
@@ -79,7 +78,7 @@ struct TestDelegate : DropDelegate {
     }
     
     func dropEntered(info: DropInfo) {
-        print("Drop entered", SideBarView.draggedLayer?.layerIndex , item.layerIndex, items.count)
+        print("Drop entered", SideBarView.draggedLayer?.layerIndex , item.layerIndex, layersModel.getLayers().count)
         guard let draggedItem = SideBarView.draggedLayer else {
             return
         }
@@ -88,16 +87,16 @@ struct TestDelegate : DropDelegate {
         }
         
         if draggedItem !== item {
-            let from = items.firstIndex(of: draggedItem)!
-            let to = items.firstIndex(of: item)!
+            let from = layersModel.getLayers().firstIndex(of: draggedItem)!
+            let to = layersModel.getLayers().firstIndex(of: item)!
             print("From : To", from, to)
             
             withAnimation(.default) {
-                var tmp = items[from].layerIndex
-                items[from].layerIndex = items[to].layerIndex
-                items[to].layerIndex = tmp
-                
-                items.sort { l1, l2 in
+                var tmp = layersModel.getLayers()[from].layerIndex
+                layersModel.getLayers()[from].layerIndex = layersModel.getLayers()[to].layerIndex
+                layersModel.getLayers()[to].layerIndex = tmp
+
+                layersModel.layers.sort { l1, l2 in
                     return l1.layerIndex < l2.layerIndex
                 }
                 print("Swapped")
@@ -140,15 +139,12 @@ extension SideBarView {
     
     func RegisterParentView(uiView: UIView) {
         self.parentView = uiView
-        uiView.addSubview(layers[0].canvasView!.pkCanvasView)
+        uiView.addSubview(layerModel.getLayers()[0].canvasView!.pkCanvasView)
     }
     
     func AddLayer() {
-        selectedLayer = layers.count
-        let newLayer  = Layer(layer: selectedLayer, thumbnail: Image(uiImage: UIImage()))
-        self.layers.append(newLayer)
-        parentView.addSubview(newLayer.canvasView!.pkCanvasView)
-        parentView.bringSubviewToFront(newLayer.canvasView!.pkCanvasView)
+        selectedLayer = layerModel.getLayers().count
+        layerModel.AddLayer()
     }
     
     func SelectLayer(index: Int) {
@@ -158,6 +154,6 @@ extension SideBarView {
     
     
     func GetCurrentLayer() -> Layer {
-        return layers[self.selectedLayer]
+        return layerModel.getLayers()[self.selectedLayer]
     }
 }

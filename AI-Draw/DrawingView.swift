@@ -24,7 +24,7 @@ struct DrawingView: View {
         HStack (alignment: .top) {
             ZStack {
                 
-                ForEach(sideBarView.layers) { layer in
+                ForEach(sideBarView.layerModel.getLayers()) { layer in
                     layer.canvasView!
                         .frame(width: 1000, height: 800)
                         .border(.black)

@@ -28,8 +28,8 @@ struct DrawingView: View {
                     layer.canvasView!
                         .frame(width: 1000, height: 800)
                         .border(.black)
-                        //.zIndex(Double(100 - layer.layerIndex))
-                        .zIndex( sideBarView.selectedLayer == layer.layerIndex ? 1.0 : 0.0)
+//                        .zIndex(Double(100 - layer.layerIndex))
+                        .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
                     
                 }
             }

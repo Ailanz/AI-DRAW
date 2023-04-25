@@ -8,7 +8,7 @@
 import SwiftUI
 import PencilKit
 
-class Layer : ObservableObject, Identifiable{
+class Layer : ObservableObject, Identifiable, Equatable{
     //layer order
     @Published var layerIndex : Int
     @Published var thumbnail : Image
@@ -27,6 +27,10 @@ class Layer : ObservableObject, Identifiable{
         print("Updating thumbnail {%s}. Stroke Count:", layerIndex, canvasView!.pkCanvasView.drawing.strokes.count)
         thumbnail = Image(uiImage: canvasView!.pkCanvasView.drawing.image(from: canvasView!.pkCanvasView.bounds, scale: 1.0))
         self.objectWillChange.send()
+    }
+    
+    static func == (lhs: Layer, rhs: Layer) -> Bool {
+        return lhs.layerIndex == rhs.layerIndex
     }
     
 }

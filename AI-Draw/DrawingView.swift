@@ -11,24 +11,25 @@ import PencilKit
 
 struct DrawingView: View {
     
-    @StateObject var sideBarView : SideBarView = SideBarView()
-    @State var canvasView: PKCanvasView
-    
-    init(sideBarView: SideBarView, _ canvasView: PKCanvasView) {
-        //self.sideBarView = sideBarView
-        self.canvasView = canvasView
-        sideBarView.RegisterParentView(uiView: canvasView)
+    @ObservedObject var sideBarView : SideBarView
+    @ObservedObject var layerModel : LayersModel
+
+    //@State var canvasView: PKCanvasView
+
+    init(sideBarView: SideBarView, layerModel: LayersModel = LayersModel()) {
+        self.sideBarView = sideBarView
+        self.layerModel = layerModel
     }
     
     var body: some View {
         HStack (alignment: .top) {
             ZStack {
                 
-                ForEach(sideBarView.layerModel.getLayers()) { layer in
-                    layer.canvasView!
-                        .frame(width: 1000, height: 800)
+                ForEach(layerModel.layers, id: \.id) { layer in
+                    layer.canvasView
+                        //.frame(width: 1000, height: 800)
                         .border(.black)
-//                        .zIndex(Double(100 - layer.layerIndex))
+                        .padding(5.0)
                         .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
                     
                 }
@@ -41,14 +42,17 @@ struct DrawingView: View {
 //            .padding()
 
             sideBarView.GetView()
-                .padding()
+                .padding(5.0)
 
-        }.background(.white)
+        }
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .background(.white)
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawingView(sideBarView: SideBarView(), PKCanvasView())
+        let layersModel = LayersModel()
+        DrawingView(sideBarView: SideBarView(layerModel: layersModel), layerModel: layersModel)
     }
 }

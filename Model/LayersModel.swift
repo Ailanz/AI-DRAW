@@ -10,6 +10,11 @@ import SwiftUI
 
 class LayersModel : ObservableObject {
     @Published var layers : [Layer] = [Layer(layer: 0, thumbnail: Image(uiImage: UIImage()))]
+    @Published var b = true
+    
+    init() {
+        
+    }
     
     func getLayers() -> [Layer] {
         return layers

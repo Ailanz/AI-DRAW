@@ -26,6 +26,7 @@ class Layer : ObservableObject, Identifiable, Equatable{
     func UpdateImage() {
         print("Updating thumbnail {%s}. Stroke Count:", layerIndex, canvasView!.pkCanvasView.drawing.strokes.count)
         thumbnail = Image(uiImage: canvasView!.pkCanvasView.drawing.image(from: canvasView!.pkCanvasView.bounds, scale: 1.0))
+        //hidden = !hidden
         self.objectWillChange.send()
     }
     

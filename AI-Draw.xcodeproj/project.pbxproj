@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8905B25929F8926A001565D3 /* LayersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8905B25829F8926A001565D3 /* LayersModel.swift */; };
+		8905B25B29F8C324001565D3 /* LayerDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8905B25A29F8C324001565D3 /* LayerDropDelegate.swift */; };
 		89AD7D3329EC7AD30060D9EB /* AI_DrawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D3229EC7AD30060D9EB /* AI_DrawApp.swift */; };
 		89AD7D3529EC7AD30060D9EB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD7D3429EC7AD30060D9EB /* ContentView.swift */; };
 		89AD7D3729EC7AD50060D9EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89AD7D3629EC7AD50060D9EB /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		8905B25829F8926A001565D3 /* LayersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersModel.swift; sourceTree = "<group>"; };
+		8905B25A29F8C324001565D3 /* LayerDropDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerDropDelegate.swift; sourceTree = "<group>"; };
 		89AD7D2F29EC7AD30060D9EB /* AI-Draw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AI-Draw.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89AD7D3229EC7AD30060D9EB /* AI_DrawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI_DrawApp.swift; sourceTree = "<group>"; };
 		89AD7D3429EC7AD30060D9EB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			children = (
 				89AD7D5029F4C3D20060D9EB /* Layer.swift */,
 				8905B25829F8926A001565D3 /* LayersModel.swift */,
+				8905B25A29F8C324001565D3 /* LayerDropDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 				89AD7D3C29EC7AD50060D9EB /* Persistence.swift in Sources */,
 				89AD7D4829EC82BC0060D9EB /* DrawingView.swift in Sources */,
 				89AD7D3529EC7AD30060D9EB /* ContentView.swift in Sources */,
+				8905B25B29F8C324001565D3 /* LayerDropDelegate.swift in Sources */,
 				89AD7D4F29F4BCC80060D9EB /* SideBarView.swift in Sources */,
 				8905B25929F8926A001565D3 /* LayersModel.swift in Sources */,
 				89AD7D4629EC7BA70060D9EB /* CanvasView.swift in Sources */,

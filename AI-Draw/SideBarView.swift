@@ -11,14 +11,13 @@ import UniformTypeIdentifiers
 
 
 class SideBarView: ObservableObject {
-    @ObservedObject var layerModel : LayersModel
+    @Published var layerModel : LayersModel
     @Published var selectedLayer = 0
     
     static var draggedLayer  : Layer?
     
-    init(layerModel: LayersModel, selectedLayer: Int = 0) {
+    init(layerModel: LayersModel) {
         self.layerModel = layerModel
-        self.selectedLayer = selectedLayer
     }
     
     var body: some View {
@@ -28,7 +27,6 @@ class SideBarView: ObservableObject {
             ScrollView(.vertical) {
                 VStack {
                     ForEach(layerModel.layers, id: \.id) { layer in
-                        
                         Button {
                             if self.selectedLayer == layer.layerIndex {
                                 self.selectedLayer = 0

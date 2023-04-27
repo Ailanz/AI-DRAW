@@ -22,31 +22,28 @@ struct DrawingView: View {
     }
     
     var body: some View {
-        HStack (alignment: .top) {
-            ZStack {
-                
-                ForEach(layerModel.layers, id: \.id) { layer in
-                    layer.canvasView
-                        //.frame(width: 1000, height: 800)
-                        .border(.black)
-                        .padding(5.0)
-                        .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
+        NavigationStack {
+            HStack (alignment: .top) {
+                ZStack {
                     
+                    ForEach(layerModel.layers, id: \.id) { layer in
+                        layer.canvasView
+                        //.frame(width: 1000, height: 800)
+                            .border(.black)
+                            .padding(5.0)
+                            .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
+                        
+                    }
                 }
+                
+                
+                sideBarView.GetView()
+                    .padding(5.0)
+                
             }
-//            CanvasView(onSaved: {
-//
-//
-//            }, canvasView: canvasView)
-//            .border(.black)
-//            .padding()
-
-            sideBarView.GetView()
-                .padding(5.0)
-
+            //.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            .background(.white)
         }
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(.white)
     }
 }
 

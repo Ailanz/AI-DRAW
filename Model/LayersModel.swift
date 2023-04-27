@@ -16,6 +16,10 @@ class LayersModel : ObservableObject {
         layers = [Layer(layer: 0, thumbnail: Image(uiImage: UIImage()), parent: self)]
     }
     
+    func Refresh() {
+        self.b = !self.b
+    }
+    
     func getLayers() -> [Layer] {
         return layers
     }

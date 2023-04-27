@@ -22,13 +22,11 @@ struct LayerDropDelegate : DropDelegate {
     }
     
     func dropEntered(info: DropInfo) {
-        print("Drop entered", SideBarView.draggedLayer?.layerIndex , item.layerIndex, layersModel.getLayers().count)
+        //print("Drop entered", SideBarView.draggedLayer?.layerIndex , item.layerIndex, layersModel.getLayers().count)
         guard let draggedItem = SideBarView.draggedLayer else {
             return
         }
-        if item == nil {
-            return
-        }
+
         
         if draggedItem !== item {
             let from = layersModel.getLayers().firstIndex(of: draggedItem)!
@@ -36,7 +34,7 @@ struct LayerDropDelegate : DropDelegate {
             print("From : To", from, to)
             
             withAnimation(.default) {
-                var tmp = layersModel.getLayers()[from].layerIndex
+                let tmp = layersModel.getLayers()[from].layerIndex
                 layersModel.getLayers()[from].layerIndex = layersModel.getLayers()[to].layerIndex
                 layersModel.getLayers()[to].layerIndex = tmp
                 

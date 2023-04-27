@@ -24,10 +24,10 @@ class Layer : ObservableObject, Identifiable, Equatable{
         let pkCanvasView = PKCanvasView()
         self.thumbnail = thumbnail
         self.parent = parent
-        self.canvasView = CanvasView(onSaved: UpdateImage, pkCanvasView: pkCanvasView, thumbnail: thumbnail)
+        self.canvasView = CanvasView(onSaved: UpdateThumbnailImg, pkCanvasView: pkCanvasView, thumbnail: thumbnail)
     }
     
-    func UpdateImage() {
+    func UpdateThumbnailImg() {
         print("Updating thumbnail {%s}. Stroke Count:", layerIndex, canvasView!.pkCanvasView.drawing.strokes.count)
         thumbnail = Image(uiImage: canvasView!.pkCanvasView.drawing.image(from: canvasView!.pkCanvasView.bounds, scale: 1.0))
         

@@ -22,7 +22,7 @@ class SideBarView: ObservableObject {
     
     var body: some View {
         VStack {
-            let p = print("Side View Reloaded")
+            //let p = print("Side View Reloaded")
 
             ScrollView(.vertical) {
                 VStack {
@@ -52,15 +52,34 @@ class SideBarView: ObservableObject {
                         
                     }
                     
-                }.padding()
+                    Button("Add Layer".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+                        withAnimation(.default) {
+                            self.AddLayer()
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    
+                }.padding(7)
             }
             .frame(height: 500)
             .background(.clear)
             .border(.black)
             
-            Button("Add Layer") {
-                self.AddLayer()
+
+            
+            Button("Delete Layers".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+                withAnimation(.default) {
+                    self.DeleteLayer()
+                }
             }
+            .buttonStyle(.borderedProminent)
+            
+            Button("Merge Layers".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+                withAnimation(.default) {
+                    self.MergeLayers()
+                }
+            }
+            .buttonStyle(.borderedProminent)
         }
     }
 }
@@ -74,6 +93,49 @@ extension SideBarView {
     func AddLayer() {
         selectedLayer = layerModel.getLayers().count
         layerModel.AddLayer()
+    }
+    
+    func DeleteLayer() {
+        let layers = layerModel.layers
+        
+        if layers.count == 1 || layers[0] == layers[selectedLayer] {
+            layers[0].canvasView!.pkCanvasView.drawing = PKDrawing()
+            layers[0].UpdateThumbnailImg()
+            return
+        }
+        
+        layerModel.layers.remove(at: selectedLayer)
+        selectedLayer -= 1
+
+        layers[selectedLayer].canvasView?.showToolPicker()
+        
+    }
+    
+    func MergeLayers() {
+        selectedLayer = 0;
+        
+        var layerArr = layerModel.layers
+        
+        if(layerArr.count == 1) {
+            return;
+        }
+        
+        let masterLayer = PKCanvasView()
+        
+        //reverse so we keep layer integrety when appending drawings
+        layerArr.reverse()
+        
+        for layer in layerArr {
+            masterLayer.drawing.append(layer.canvasView!.pkCanvasView.drawing)
+        }
+        
+        //reverse back to normal order, remove everything but last
+        layerArr.reverse()
+        layerArr[0].canvasView!.pkCanvasView.drawing = masterLayer.drawing
+        layerModel.layers.removeLast(layerArr.count - 1)
+
+        //re-show tool picker since layers are cleaned up
+        layerArr[0].canvasView!.showToolPicker()
     }
     
     func SelectLayer(index: Int) {

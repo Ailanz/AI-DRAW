@@ -27,23 +27,31 @@ struct DrawingView: View {
                 ZStack {
                     ForEach(layerModel.layers, id: \.id) { layer in
                         layer.canvasView
-                        //.frame(width: 1000, height: 800)
                             .background(.clear)
                             .padding(0)
                             .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
-                        
                     }
-                }
-                .border(.black, width: 5)
-                .background(.clear)
-                sideBarView.GetView()
-                    .frame(maxWidth: 150)
+                }.padding(.top, 25)
+
+                sideBarView.GetView().background(Color.brown)
                 
             }
-            //.toolbar {Text("Test")}
+            .frame(height: UIScreen.main.bounds.height)
+
+            .toolbar {
+                ToolbarItem(placement: .automatic) {
+                    
+                    Text("Test")
+                }
+            }
+            .navigationTitle("AI-Draw")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.black, for: .navigationBar, .bottomBar)
+            .toolbarBackground(.visible, for: .navigationBar, .bottomBar)
+
             .background(.gray)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+       .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

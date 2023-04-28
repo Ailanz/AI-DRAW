@@ -26,6 +26,8 @@ class SideBarView: ObservableObject {
             Text("Layers")
                 .foregroundColor(Color.black)
                 .multilineTextAlignment(.center)
+                .padding(.top, 65)
+            
             ScrollView(.vertical) {
                 VStack {
                     ForEach(layerModel.layers, id: \.id) { layer in
@@ -53,41 +55,44 @@ class SideBarView: ObservableObject {
                             return NSItemProvider()
                         })
                         .onDrop(of: [UTType.text], delegate: LayerDropDelegate(item: layer, layersModel: self.layerModel))
-
+                        
                     }
                     
-                    Button("Add Layer".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+                    Button {
                         withAnimation(.default) {
                             self.AddLayer()
                         }
+                    } label :{
+                        Image(systemName: "plus.app")
+                            .resizable()
+                            .frame(width:30, height: 30)
                     }
-                    .buttonStyle(.borderedProminent)
                     
                 }
                 .padding(5)
-            }
+            }.background(.brown)
             .frame(height: 500)
-            .background(.gray)
             
             DeleteLayerButton {
                 withAnimation(.default) {
                     self.DeleteLayer()
                 }
             }
-
-            Button("Merge Layers".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+            
+            MergeLayersButton {
                 withAnimation(.default) {
                     self.MergeLayers()
                 }
             }
-            .buttonStyle(.borderedProminent)
+            
+            Spacer()
         }
     }
 }
 
 extension SideBarView {
     
-    func GetView() ->some View {
+    func GetView() -> some View {
         return  body
     }
     

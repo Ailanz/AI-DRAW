@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DeleteLayerButton: View {
+struct MergeLayersButton: View {
     
     var onPress : () -> Void
     @State private var showingAlert = false
@@ -18,14 +18,14 @@ struct DeleteLayerButton: View {
     }
     
     var body: some View {
-        Button("Delete Layer".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+        Button("Merge Layers".padding(toLength: 13, withPad: " ", startingAt: 0)) {
             showingAlert = true
         }
         .alert(isPresented:$showingAlert) {
                    Alert(
-                       title: Text("Are you sure you want to delete this layer?"),
+                       title: Text("Are you sure you want to merge all layers?"),
                        message: Text("This cannot be undone"),
-                       primaryButton: .destructive(Text("Delete")) {
+                       primaryButton: .destructive(Text("Merge")) {
                            onPress()
                        },
                        secondaryButton: .cancel()
@@ -33,6 +33,5 @@ struct DeleteLayerButton: View {
                }
         
         .buttonStyle(.borderedProminent)
-        .tint(.red)
     }
 }

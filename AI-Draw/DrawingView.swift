@@ -23,27 +23,27 @@ struct DrawingView: View {
     
     var body: some View {
         NavigationStack {
-            HStack (alignment: .top) {
+            HStack (alignment: .top, spacing: 0) {
                 ZStack {
-                    
                     ForEach(layerModel.layers, id: \.id) { layer in
                         layer.canvasView
                         //.frame(width: 1000, height: 800)
-                            .border(.black)
-                            .padding(5.0)
+                            .background(.clear)
+                            .padding(0)
                             .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
                         
                     }
                 }
-                
-                
+                .border(.black, width: 5)
+                .background(.clear)
                 sideBarView.GetView()
-                    .padding(5.0)
+                    .frame(maxWidth: 150)
                 
             }
-            //.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            .background(.white)
+            //.toolbar {Text("Test")}
+            .background(.gray)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

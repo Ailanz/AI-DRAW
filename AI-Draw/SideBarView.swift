@@ -23,11 +23,14 @@ class SideBarView: ObservableObject {
     var body: some View {
         VStack {
             //let p = print("Side View Reloaded")
-
+            Text("Layers")
+                .foregroundColor(Color.black)
+                .multilineTextAlignment(.center)
             ScrollView(.vertical) {
                 VStack {
                     ForEach(layerModel.layers, id: \.id) { layer in
                         Button {
+                            // Clicking on itself will unselect and goto first instead
                             if self.selectedLayer == layer.layerIndex {
                                 self.selectedLayer = 0
                             } else {
@@ -35,12 +38,14 @@ class SideBarView: ObservableObject {
                             }
                             
                         } label: {
+                            let isSelected = layer === self.layerModel.getLayers()[self.selectedLayer]
                             layer.thumbnail
                                 .resizable()
                                 .frame(width:110, height: 90)
-                                .background(.clear)
-                                .border(layer === self.layerModel.getLayers()[self.selectedLayer] ? .red : .blue)
+                                .background(.white)
+                                .border(isSelected ? .red : .blue, width: isSelected ? 3 : 1)
                         }
+
                         .onDrag({
                             SideBarView.draggedLayer = layer
                             print("Dragged", SideBarView.draggedLayer?.layerIndex ?? -1, layer.layerIndex)
@@ -48,8 +53,7 @@ class SideBarView: ObservableObject {
                             return NSItemProvider()
                         })
                         .onDrop(of: [UTType.text], delegate: LayerDropDelegate(item: layer, layersModel: self.layerModel))
-                        
-                        
+
                     }
                     
                     Button("Add Layer".padding(toLength: 13, withPad: " ", startingAt: 0)) {
@@ -59,21 +63,18 @@ class SideBarView: ObservableObject {
                     }
                     .buttonStyle(.borderedProminent)
                     
-                }.padding(7)
+                }
+                .padding(5)
             }
             .frame(height: 500)
-            .background(.clear)
-            .border(.black)
+            .background(.gray)
             
-
-            
-            Button("Delete Layers".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+            DeleteLayerButton {
                 withAnimation(.default) {
                     self.DeleteLayer()
                 }
             }
-            .buttonStyle(.borderedProminent)
-            
+
             Button("Merge Layers".padding(toLength: 13, withPad: " ", startingAt: 0)) {
                 withAnimation(.default) {
                     self.MergeLayers()
@@ -106,7 +107,7 @@ extension SideBarView {
         
         layerModel.layers.remove(at: selectedLayer)
         selectedLayer -= 1
-
+        
         layers[selectedLayer].canvasView?.showToolPicker()
         
     }
@@ -133,7 +134,7 @@ extension SideBarView {
         layerArr.reverse()
         layerArr[0].canvasView!.pkCanvasView.drawing = masterLayer.drawing
         layerModel.layers.removeLast(layerArr.count - 1)
-
+        
         //re-show tool picker since layers are cleaned up
         layerArr[0].canvasView!.showToolPicker()
     }

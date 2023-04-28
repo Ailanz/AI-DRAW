@@ -16,6 +16,7 @@ struct AI_DrawApp: App {
         WindowGroup {
             let layersModel = LayersModel()
             DrawingView(sideBarView: SideBarView(layerModel: layersModel), layerModel: layersModel)
+                .padding(0)
         }
     }
 }

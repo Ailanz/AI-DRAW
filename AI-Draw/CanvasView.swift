@@ -16,6 +16,19 @@ struct CanvasView {
     @State var pkCanvasView: PKCanvasView
     @State var thumbnail: Image
     
+    init(onSaved: @escaping () -> Void, pkCanvasView: PKCanvasView, thumbnail: Image) {
+        self.onSaved = onSaved
+        self.pkCanvasView = pkCanvasView
+        self.thumbnail = thumbnail
+  
+        //TESTING ADD IMAGE TO VIEW
+//        let imageView = UIImageView(image: UIImage(named: "img1"))
+//        let contentView = self.pkCanvasView.subviews[0]
+//        contentView.addSubview(imageView)
+//        contentView.sendSubviewToBack(imageView)
+//        contentView.bringSubviewToFront(imageView)
+    }
+    
     
     func showToolPicker() {
         CanvasView.toolPicker.setVisible(true, forFirstResponder: pkCanvasView)

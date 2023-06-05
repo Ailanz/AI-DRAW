@@ -29,10 +29,16 @@ class Layer : ObservableObject, Identifiable, Equatable{
     
     func UpdateThumbnailImg() {
         print("Updating thumbnail {%s}. Stroke Count:", layerIndex, canvasView!.pkCanvasView.drawing.strokes.count)
+        
         thumbnail = Image(uiImage: canvasView!.pkCanvasView.drawing.image(from: canvasView!.pkCanvasView.bounds, scale: 1.0))
         
         //triger reload
         parent.b = !parent.b
+    }
+    
+    func GetLayerImage() -> UIImage {
+        let img = self.canvasView!.pkCanvasView.drawing.image(from: self.canvasView!.pkCanvasView.bounds, scale: 1.0)
+        return img
     }
     
     static func == (lhs: Layer, rhs: Layer) -> Bool {

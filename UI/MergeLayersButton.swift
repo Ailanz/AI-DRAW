@@ -18,7 +18,7 @@ struct MergeLayersButton: View {
     }
     
     var body: some View {
-        Button("Merge Layers".padding(toLength: 13, withPad: " ", startingAt: 0)) {
+        Button("Merge Layers".padding(toLength: 12, withPad: " ", startingAt: 0)) {
             showingAlert = true
         }
         .alert(isPresented:$showingAlert) {

@@ -22,10 +22,10 @@ struct CanvasView {
         self.thumbnail = thumbnail
   
         //TESTING ADD IMAGE TO VIEW
-//        let imageView = UIImageView(image: UIImage(named: "img1"))
-//        let contentView = self.pkCanvasView.subviews[0]
-//        contentView.addSubview(imageView)
-//        contentView.sendSubviewToBack(imageView)
+        //let imageView = UIImageView(image: UIImage(named: "img1"))
+        //let contentView = self.pkCanvasView.subviews[0]
+        //contentView.addSubview(imageView)
+        //contentView.sendSubviewToBack(imageView)
 //        contentView.bringSubviewToFront(imageView)
     }
     

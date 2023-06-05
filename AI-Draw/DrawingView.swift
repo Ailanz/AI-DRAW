@@ -31,8 +31,10 @@ struct DrawingView: View {
     
     var body: some View {
         NavigationStack {
-            HStack (alignment: .top, spacing: 0) {
-                ZStack {
+            HStack (alignment: .top,  spacing: 0) {
+                Spacer().frame(width:80).border(.purple, width: 5)
+
+                ZStack(alignment: .center) {
                     Image(uiImage: bgImage)
                         .resizable()
                         .scaledToFit()
@@ -42,13 +44,22 @@ struct DrawingView: View {
                             .background(.clear)
                             .padding(0)
                             .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
+                            .frame(maxWidth: UIScreen.main.bounds.height)
+                            //.background(.white)
+                            .border(.red, width: 5)
+
                     }
-                }.padding(.top, 25)
-                
-                sideBarView.GetView().background(Color.brown)
+                }
+                .padding(.top, 15)
+                .frame(maxWidth:.infinity)
+
+                sideBarView.GetView()
+                    .background(Color.brown)
+            
                 
             }
-            .frame(height: UIScreen.main.bounds.height)
+            .border(.green, width: 5)
+            
             
             .toolbar {
                 ToolbarItem(placement: .automatic) {
@@ -85,8 +96,14 @@ struct DrawingView: View {
             .toolbarBackground(.black, for: .navigationBar, .bottomBar)
             .toolbarBackground(.visible, for: .navigationBar, .bottomBar)
             
-            .background(.gray)
+            .background(.black)
         }
+        .frame(maxWidth: .infinity)
+        .safeAreaInset(edge: .bottom, alignment: .center, spacing: 0) {
+                        Color.clear
+                            .frame(height: 5)
+                            .background(Material.bar)
+                    }
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }

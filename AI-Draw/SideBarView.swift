@@ -16,8 +16,11 @@ class SideBarView: ObservableObject {
     
     static var draggedLayer  : Layer?
     
+    var imgService : StableDiffusionService
+    
     init(layerModel: LayersModel) {
         self.layerModel = layerModel
+        self.imgService = StableDiffusionService()
     }
     
     var body: some View {
@@ -26,7 +29,7 @@ class SideBarView: ObservableObject {
             Text("Layers")
                 .foregroundColor(Color.black)
                 .multilineTextAlignment(.center)
-                .padding(.top, 65)
+                .padding(.top, 40)
             
             ScrollView(.vertical) {
                 VStack {
@@ -85,6 +88,22 @@ class SideBarView: ObservableObject {
                 }
             }
             
+            GenerateButton {
+                withAnimation(.default) {
+                    self.AddLayer()
+
+                    let img = self.imgService.GenerateImage(prompt: "Old Male",
+                     callback: {img in
+                        print("REceived: ", img)
+                        DispatchQueue.main.sync {
+                            self.SetImgLayer(img: img)
+                        }
+                        }
+                    )
+                    //self.imgService.GenerateImage(prompt: "Old Male")
+                }
+            }
+            
             Spacer()
         }
     }
@@ -99,6 +118,27 @@ extension SideBarView {
     func AddLayer() {
         selectedLayer = layerModel.getLayers().count
         layerModel.AddLayer()
+    }
+    
+    func SetImgLayer(img: UIImage?) {
+        
+        if(img == nil) {
+            return
+        }
+        print("Got Img!", img)
+        let layers = layerModel.layers
+        let newImg = img!
+        print("NEW VIEW 0")
+        let newImgView = UIImageView(image: newImg)
+        print("NEW VIEW")
+
+        let subview = self.GetCurrentLayer().canvasView!.pkCanvasView.subviews[0]
+        subview.addSubview(newImgView)
+        subview.sendSubviewToBack(newImgView)
+
+        //subview.bringSubviewToFront(newImgView)
+        newImgView.becomeFirstResponder()
+        print("Added Img ", selectedLayer)
     }
     
     func DeleteLayer() {

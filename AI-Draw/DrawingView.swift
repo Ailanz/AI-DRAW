@@ -44,7 +44,7 @@ struct DrawingView: View {
                             .background(.clear)
                             .padding(0)
                             .zIndex( sideBarView.selectedLayer == layer.layerIndex ? Double.infinity : Double(100 - layer.layerIndex))
-                            .frame(maxWidth: UIScreen.main.bounds.height)
+                            .frame(width: 612, height: 612)
                             //.background(.white)
                             .border(.red, width: 5)
 

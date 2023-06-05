@@ -125,20 +125,16 @@ extension SideBarView {
         if(img == nil) {
             return
         }
-        print("Got Img!", img)
-        let layers = layerModel.layers
-        let newImg = img!
-        print("NEW VIEW 0")
+        let newImg = img!.resizeImage(targetSize: self.GetCurrentLayer().canvasView!.pkCanvasView.bounds.size)
         let newImgView = UIImageView(image: newImg)
-        print("NEW VIEW")
-
+        //newImgView.contentMode = .scaleToFill;
+        
         let subview = self.GetCurrentLayer().canvasView!.pkCanvasView.subviews[0]
         subview.addSubview(newImgView)
         subview.sendSubviewToBack(newImgView)
 
         //subview.bringSubviewToFront(newImgView)
         newImgView.becomeFirstResponder()
-        print("Added Img ", selectedLayer)
     }
     
     func DeleteLayer() {

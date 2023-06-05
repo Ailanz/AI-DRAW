@@ -33,26 +33,52 @@ class ImageUtil {
             uiImage = uiImage.mergeWith(topImage: layer.canvasView!.pkCanvasView.drawing.image(from: firstPkCanvas!.bounds, scale: 1.0))
         }
         layerModel.layers.reverse()
-
+        
         
         return uiImage
     }
 }
 
 extension UIImage {
-  func mergeWith(topImage: UIImage) -> UIImage {
-    let bottomImage = self
-
-    UIGraphicsBeginImageContext(size)
-
-
-    let areaSize = CGRect(x: 0, y: 0, width: bottomImage.size.width, height: bottomImage.size.height)
-    bottomImage.draw(in: areaSize)
-
-    topImage.draw(in: areaSize, blendMode: .normal, alpha: 1.0)
-
-    let mergedImage = UIGraphicsGetImageFromCurrentImageContext()!
-    UIGraphicsEndImageContext()
-    return mergedImage
-  }
+    func mergeWith(topImage: UIImage) -> UIImage {
+        let bottomImage = self
+        
+        UIGraphicsBeginImageContext(size)
+        
+        
+        let areaSize = CGRect(x: 0, y: 0, width: bottomImage.size.width, height: bottomImage.size.height)
+        bottomImage.draw(in: areaSize)
+        
+        topImage.draw(in: areaSize, blendMode: .normal, alpha: 1.0)
+        
+        let mergedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return mergedImage
+    }
+    
+    func resizeImage(targetSize: CGSize) -> UIImage {
+        let size = self.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        self.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
 }

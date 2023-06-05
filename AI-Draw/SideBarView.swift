@@ -50,7 +50,7 @@ class SideBarView: ObservableObject {
                                 .background(.white)
                                 .border(isSelected ? .red : .blue, width: isSelected ? 3 : 1)
                         }
-
+                        
                         .onDrag({
                             SideBarView.draggedLayer = layer
                             print("Dragged", SideBarView.draggedLayer?.layerIndex ?? -1, layer.layerIndex)
@@ -74,7 +74,7 @@ class SideBarView: ObservableObject {
                 }
                 .padding(5)
             }.background(.brown)
-            .frame(height: 500)
+                .frame(height: 500)
             
             DeleteLayerButton {
                 withAnimation(.default) {
@@ -91,15 +91,22 @@ class SideBarView: ObservableObject {
             GenerateButton {
                 withAnimation(.default) {
                     self.AddLayer()
-
-                    let img = self.imgService.GenerateImage(prompt: "Old Male",
-                     callback: {img in
-                        print("REceived: ", img)
-                        DispatchQueue.main.sync {
+                    let frontImg = self.layerModel.layers[0].GetLayerImage()
+                    self.imgService.InterrogateClip(base64Img: frontImg.base64!,
+                    callback: { prompt in
+                        print(prompt)
+                        self.imgService.GenerateImage(prompt: prompt,
+                        callback: {img in
                             self.SetImgLayer(img: img)
-                        }
-                        }
-                    )
+    
+                        })
+                    })
+//                    self.imgService.GenerateImage(prompt: "Old Male",
+//                    callback: {img in
+//                        self.SetImgLayer(img: img)
+//                        
+//                    }
+//                    )
                     //self.imgService.GenerateImage(prompt: "Old Male")
                 }
             }
@@ -121,20 +128,21 @@ extension SideBarView {
     }
     
     func SetImgLayer(img: UIImage?) {
-        
-        if(img == nil) {
-            return
+        DispatchQueue.main.sync {
+            if(img == nil) {
+                return
+            }
+            let newImg = img!.resizeImage(targetSize: self.GetCurrentLayer().canvasView!.pkCanvasView.bounds.size)
+            let newImgView = UIImageView(image: newImg)
+            //newImgView.contentMode = .scaleToFill;
+            
+            let subview = self.GetCurrentLayer().canvasView!.pkCanvasView.subviews[0]
+            subview.addSubview(newImgView)
+            subview.sendSubviewToBack(newImgView)
+            
+            //subview.bringSubviewToFront(newImgView)
+            newImgView.becomeFirstResponder()
         }
-        let newImg = img!.resizeImage(targetSize: self.GetCurrentLayer().canvasView!.pkCanvasView.bounds.size)
-        let newImgView = UIImageView(image: newImg)
-        //newImgView.contentMode = .scaleToFill;
-        
-        let subview = self.GetCurrentLayer().canvasView!.pkCanvasView.subviews[0]
-        subview.addSubview(newImgView)
-        subview.sendSubviewToBack(newImgView)
-
-        //subview.bringSubviewToFront(newImgView)
-        newImgView.becomeFirstResponder()
     }
     
     func DeleteLayer() {

@@ -22,51 +22,91 @@ struct Txt2ImgResponse : Codable {
     }
 }
 
+struct InterrogateRequest : Codable {
+    var image = ""
+    var model = "clip"
+}
+
+struct InterrogateResponse : Codable {
+    var caption = ""
+}
+
 class StableDiffusionService {
     
     var host = "http://192.168.86.177:7860/"
     var txt2Img = "sdapi/v1/txt2img"
+    var interrogate = "sdapi/v1/interrogate"
     
-    func GenerateImage(prompt : String, callback:  @escaping (_ img: UIImage)-> Void) -> UIImage? {
-        var resultImg = Optional<UIImage>.none
+    func CreateRequest(payload: Data, url: String) -> URLRequest {
+        let urlAddr = URL(string: url)
+        var request = URLRequest(url: urlAddr!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = payload
+        return request
+    }
+    
+    func InterrogateClip(base64Img : String, callback:  @escaping (_ prompt: String)-> Void) {
         do {
-            var payload = Txt2ImgRequest(prompt: prompt)
+            let payload = InterrogateRequest(image: base64Img)
             let jsonData = try JSONEncoder().encode(payload)
-            let jsonString = String(data: jsonData, encoding: .utf8)!
+            //let jsonString = String(data: jsonData, encoding: .utf8)!
             //print(jsonString)
-            let url = URL(string: host + txt2Img)
-            var request = URLRequest(url: url!)
-            request.httpMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = jsonData
+            let request = CreateRequest(payload: jsonData, url: host + interrogate)
             
             
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
-              guard let data = data else {
-                print(String(describing: error))
-                return
-              }
+                guard let data = data else {
+                    print(String(describing: error))
+                    return
+                }
                 
                 let decoder = JSONDecoder()
-            
-              //print(String(data: data, encoding: .utf8)!)
                 
                 do {
-                    let response = try decoder.decode(Txt2ImgResponse.self, from: data)
-                    //print(response.images)
-                    resultImg = UIImage(data: Data(base64Encoded: response.images[0])!)
-                    print("DonE!")
-                    callback(resultImg!)
+                    let response = try decoder.decode(InterrogateResponse.self, from: data)
+
+                    print("Got Response Interrogate", data, response)
+                    callback(response.caption)
                 } catch {
                     print(String(describing: error))
                 }
             }
-
+            
             task.resume()
             
         } catch { print(error) }
-        //print("RETURN: " ,resultImg)
-        return resultImg
+    }
+    
+    func GenerateImage(prompt : String, callback:  @escaping (_ img: UIImage)-> Void) {
+        var resultImg = Optional<UIImage>.none
+        do {
+            let payload = Txt2ImgRequest(prompt: prompt)
+            let jsonData = try JSONEncoder().encode(payload)
+            //let jsonString = String(data: jsonData, encoding: .utf8)!
+            let request = CreateRequest(payload: jsonData, url: host + txt2Img)
+            
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    print(String(describing: error))
+                    return
+                }
+                
+                let decoder = JSONDecoder()
+                
+                do {
+                    let response = try decoder.decode(Txt2ImgResponse.self, from: data)
+                    print("Got Response from Txt2Img")
+                    callback(response.images[0].imageFromBase64!)
+                } catch {
+                    print(String(describing: error))
+                }
+            }
+            
+            task.resume()
+            
+        } catch { print(error) }
     }
     
 }

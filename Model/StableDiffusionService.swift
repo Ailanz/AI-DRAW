@@ -13,20 +13,29 @@ struct Txt2ImgRequest : Codable {
     var sampler_index = "DPM++ 2M Karras"
     var steps = 20
     var alwayson_scripts = AlwaysOnScripts()
-    
-    struct AlwaysOnScripts : Codable {
-        var controlnet = ControlNet()
-    }
-    
-    struct ControlNet : Codable {
-        var args : [Args] = [Args()]
-    }
-    
-    struct Args : Codable {
-        var input_image = ""
-        var model = "control_v11p_sd15_lineart [43d4be0d]"
-        var module = "lineart_anime"
-    }
+}
+
+
+struct Img2ImgRequest : Codable {
+    var prompt = ""
+    var init_images : [String] = []
+    var sampler_index = "DPM++ 2M Karras"
+    var steps = 20
+    //var alwayson_scripts = AlwaysOnScripts()
+}
+
+struct AlwaysOnScripts : Codable {
+    var controlnet = ControlNet()
+}
+
+struct ControlNet : Codable {
+    var args : [Args] = [Args()]
+}
+
+struct Args : Codable {
+    var input_image = ""
+    var model = "control_v11p_sd15_lineart [43d4be0d]"
+    var module = "lineart_anime"
 }
 
 struct Txt2ImgResponse : Codable {
@@ -50,6 +59,7 @@ class StableDiffusionService {
     
     var host = "http://192.168.86.177:7860/"
     var txt2Img = "sdapi/v1/txt2img"
+    var img2Img = "sdapi/v1/img2img"
     var interrogate = "sdapi/v1/interrogate"
     
     func CreateRequest(payload: Data, url: String) -> URLRequest {
@@ -93,7 +103,7 @@ class StableDiffusionService {
         } catch { print(error) }
     }
     
-    func GenerateImage(prompt : String, base64Img : String, callback:  @escaping (_ img: UIImage)-> Void) {
+    func Txt2Img(prompt : String, base64Img : String, callback:  @escaping (_ img: UIImage)-> Void) {
         do {
             var payload = Txt2ImgRequest(prompt: prompt)
             payload.alwayson_scripts.controlnet.args[0].input_image = base64Img
@@ -102,6 +112,39 @@ class StableDiffusionService {
             //let jsonString = String(data: jsonData, encoding: .utf8)!
             //print(jsonString)
             let request = CreateRequest(payload: jsonData, url: host + txt2Img)
+            
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    print(String(describing: error))
+                    return
+                }
+                
+                let decoder = JSONDecoder()
+                
+                do {
+                    let response = try decoder.decode(Txt2ImgResponse.self, from: data)
+                    print("Got Response from Txt2Img")
+                    callback(response.images[0].imageFromBase64!)
+                } catch {
+                    print(String(describing: error))
+                }
+            }
+            
+            task.resume()
+            
+        } catch { print(error) }
+    }
+    
+    func Img2Img(prompt : String, base64Img : String, callback:  @escaping (_ img: UIImage)-> Void) {
+        do {
+            var payload = Img2ImgRequest(prompt: prompt, init_images: [base64Img])
+            //payload.alwayson_scripts.controlnet.args[0].input_image = base64Img
+            
+            let jsonData = try JSONEncoder().encode(payload)
+            //let jsonString = String(data: jsonData, encoding: .utf8)!
+            //print(jsonString)
+            let request = CreateRequest(payload: jsonData, url: host + img2Img)
             
             
             let task = URLSession.shared.dataTask(with: request) { data, response, error in

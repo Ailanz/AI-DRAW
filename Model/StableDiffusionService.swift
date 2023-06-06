@@ -10,8 +10,23 @@ import UIKit
 
 struct Txt2ImgRequest : Codable {
     var prompt = ""
-    var sampler_index = "Euler"
+    var sampler_index = "DPM++ 2M Karras"
     var steps = 20
+    var alwayson_scripts = AlwaysOnScripts()
+    
+    struct AlwaysOnScripts : Codable {
+        var controlnet = ControlNet()
+    }
+    
+    struct ControlNet : Codable {
+        var args : [Args] = [Args()]
+    }
+    
+    struct Args : Codable {
+        var input_image = ""
+        var model = "control_v11p_sd15_lineart [43d4be0d]"
+        var module = "lineart_anime"
+    }
 }
 
 struct Txt2ImgResponse : Codable {
@@ -78,12 +93,14 @@ class StableDiffusionService {
         } catch { print(error) }
     }
     
-    func GenerateImage(prompt : String, callback:  @escaping (_ img: UIImage)-> Void) {
-        var resultImg = Optional<UIImage>.none
+    func GenerateImage(prompt : String, base64Img : String, callback:  @escaping (_ img: UIImage)-> Void) {
         do {
-            let payload = Txt2ImgRequest(prompt: prompt)
+            var payload = Txt2ImgRequest(prompt: prompt)
+            payload.alwayson_scripts.controlnet.args[0].input_image = base64Img
+            
             let jsonData = try JSONEncoder().encode(payload)
             //let jsonString = String(data: jsonData, encoding: .utf8)!
+            //print(jsonString)
             let request = CreateRequest(payload: jsonData, url: host + txt2Img)
             
             

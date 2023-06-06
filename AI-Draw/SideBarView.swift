@@ -95,7 +95,7 @@ class SideBarView: ObservableObject {
                     self.imgService.InterrogateClip(base64Img: frontImg.base64!,
                     callback: { prompt in
                         print(prompt)
-                        self.imgService.GenerateImage(prompt: prompt,
+                        self.imgService.GenerateImage(prompt: prompt, base64Img: frontImg.base64!,
                         callback: {img in
                             self.SetImgLayer(img: img)
     
